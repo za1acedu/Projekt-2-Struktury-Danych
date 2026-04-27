@@ -1,0 +1,118 @@
+Wyniki: chrono::high_resolution_clock, samples=1000, czas usredniony w ns
+Format: N=<rozmiar kolejki przed pomiarem> ; OPTIME=<sredni czas operacji w ns>
+
+================ HEAP (kopiec binarny, max-heap) - pomiary kolegi ================
+---- push() ----
+N=1000 ; OPTIME=389
+N=10000 ; OPTIME=613
+N=100000 ; OPTIME=210
+N=1000000 ; OPTIME=241
+N=10000000 ; OPTIME=218
+
+---- pop() ----
+N=1000 ; OPTIME=1075
+N=10000 ; OPTIME=2258
+N=100000 ; OPTIME=2171
+N=1000000 ; OPTIME=2550
+N=10000000 ; OPTIME=2941
+
+---- peek() ----
+N=1000 ; OPTIME=17
+N=10000 ; OPTIME=17
+N=100000 ; OPTIME=17
+N=1000000 ; OPTIME=17
+N=10000000 ; OPTIME=17
+
+---- changePriority() ----
+N=1000 ; OPTIME=381
+N=10000 ; OPTIME=667
+N=100000 ; OPTIME=237
+N=1000000 ; OPTIME=582
+N=10000000 ; OPTIME=655
+
+================ VECTOR (nieposortowany) ================
+---- push() (best=avg=worst, O(1) amortyzowane) ----
+N=1000 ; OPTIME=13.56
+N=10000 ; OPTIME=12.76
+N=100000 ; OPTIME=12.89
+N=1000000 ; OPTIME=21.41
+N=10000000 ; OPTIME=10.06
+---- pop() (best=avg=worst, O(N) - findMaxIndex pelny skan) ----
+N=1000 ; OPTIME=1896
+N=10000 ; OPTIME=36473
+N=100000 ; OPTIME=381343
+N=1000000 ; OPTIME=3846441
+N=10000000 ; OPTIME=38733284
+---- peek() (best=avg=worst, O(N)) ----
+N=1000 ; OPTIME=3916.24
+N=10000 ; OPTIME=38844.90
+N=100000 ; OPTIME=385104.30
+N=1000000 ; OPTIME=3847948.50
+N=10000000 ; OPTIME=38613165.90
+---- changePriority() best (id=0, na poczatku - O(1)) ----
+N=1000 ; OPTIME=5.57
+N=10000 ; OPTIME=5.61
+N=100000 ; OPTIME=5.64
+N=1000000 ; OPTIME=5.59
+N=10000000 ; OPTIME=5.57
+---- changePriority() avg (id losowe - srednio O(N/2)) ----
+N=1000 ; OPTIME=1161
+N=10000 ; OPTIME=11919
+N=100000 ; OPTIME=120995
+N=1000000 ; OPTIME=1180097
+N=10000000 ; OPTIME=11622745
+---- changePriority() worst (id=N-1, na koncu - O(N)) ----
+N=1000 ; OPTIME=2389
+N=10000 ; OPTIME=23581
+N=100000 ; OPTIME=236122
+N=1000000 ; OPTIME=2360245
+N=10000000 ; OPTIME=23744199
+
+================ SORTED LIST (jednokierunkowa, malejaca) ================
+(push avg ograniczone do 10^5 bo fill listy z losowymi priorytetami jest O(N^2))
+---- push() best (nowy prio > head, wstawienie w head, O(1)) ----
+N=1000 ; OPTIME=25
+N=10000 ; OPTIME=33
+N=100000 ; OPTIME=15
+N=1000000 ; OPTIME=15
+N=10000000 ; OPTIME=14
+---- push() avg (lista i prio losowe, srednio O(N/2)) ----
+N=1000 ; OPTIME=898
+N=10000 ; OPTIME=12498
+N=100000 ; OPTIME=436048
+---- push() worst (nowy prio < tail, przejscie do konca, O(N)) ----
+N=1000 ; OPTIME=1047
+N=10000 ; OPTIME=10989
+N=100000 ; OPTIME=155862
+N=1000000 ; OPTIME=2638583
+N=10000000 ; OPTIME=68866862
+---- pop() (best=avg=worst, O(1)) ----
+N=1000 ; OPTIME=9
+N=10000 ; OPTIME=7
+N=100000 ; OPTIME=7
+N=1000000 ; OPTIME=8
+N=10000000 ; OPTIME=10
+---- peek() (best=avg=worst, O(1)) ----
+N=1000 ; OPTIME=1.70
+N=10000 ; OPTIME=1.73
+N=100000 ; OPTIME=1.72
+N=1000000 ; OPTIME=1.69
+N=10000000 ; OPTIME=1.68
+---- changePriority() best (id=N-1 w head, prio rosnacy, O(1)) ----
+N=1000 ; OPTIME=21
+N=10000 ; OPTIME=21
+N=100000 ; OPTIME=21
+N=1000000 ; OPTIME=22
+N=10000000 ; OPTIME=22
+---- changePriority() avg (id i prio losowe) ----
+N=1000 ; OPTIME=765
+N=10000 ; OPTIME=9559
+N=100000 ; OPTIME=105786
+N=1000000 ; OPTIME=1556124
+N=10000000 ; OPTIME=50343836
+---- changePriority() worst (id=0 w ogonie, prio < min, O(N)) ----
+N=1000 ; OPTIME=1916
+N=10000 ; OPTIME=21745
+N=100000 ; OPTIME=296800
+N=1000000 ; OPTIME=4805638
+N=10000000 ; OPTIME=136648525

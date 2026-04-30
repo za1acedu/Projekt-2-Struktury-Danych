@@ -122,9 +122,6 @@ struct PriorityQueueHeap{
     }
 };
 
-// ============================================================
-// 2. Kolejka priorytetowa - nieposortowany vector
-// ============================================================
 struct PriorityQueueVector{
     std::vector<Element> data;
 
@@ -168,10 +165,6 @@ struct PriorityQueueVector{
     }
 };
 
-// ============================================================
-// 3. Kolejka priorytetowa - posortowana lista jednokierunkowa
-//    (malejaco: max w head, peek/pop sa O(1))
-// ============================================================
 struct Node{
     Element data;
     Node* next;
@@ -245,15 +238,6 @@ struct PriorityQueueSortedList{
     }
 };
 
-// ============================================================
-//                          TESTY
-// ============================================================
-// Schemat identyczny jak w pierwotnym main.cpp:
-//   - chrono::high_resolution_clock
-//   - samples = 1000
-//   - kolejka wypelniana N elementami PRZED pomiarem
-//   - mierzony czas samych operacji testowanych, podzielony przez samples
-
 static const int SAMPLES = 1000;
 
 // volatile sink - zapobiega usuwaniu wywolania peek() przez optymalizator
@@ -293,9 +277,6 @@ void writeRowD(std::ofstream& f, int N, double t){
     f << "N=" << N << " ; OPTIME=" << std::fixed << std::setprecision(2) << t << "\n";
 }
 
-// ----------------------------------------------------------
-// VECTOR (nieposortowany)
-// ----------------------------------------------------------
 void test_vector(std::ofstream& f){
     std::vector<int> Ns = {1000, 10000, 100000, 1000000, 10000000};
     std::mt19937 rng(42);
@@ -366,9 +347,6 @@ void test_vector(std::ofstream& f){
     }
 }
 
-// ----------------------------------------------------------
-// SORTED LIST (malejaca)
-// ----------------------------------------------------------
 void test_sortedlist(std::ofstream& f){
     // N ograniczone do 100k - dla scenariusza "avg push" trzeba miec liste z losowymi
     // priorytetami, a fill takiej listy jest O(N^2) (kazdy push wymaga przejscia ~N/2 nodow).
@@ -380,7 +358,6 @@ void test_sortedlist(std::ofstream& f){
     f << "(N ograniczone do 100k bo fill listy z losowymi priorytetami jest O(N^2))\n";
     std::cout << "\n================ SORTED LIST ================\n";
 
-    // ---- push ----
     // best: nowy prio > head -> wstawienie w head -> O(1)
     writeHeader(f, "---- push() best (nowy prio > head, wstawienie w head, O(1)) ----");
     for(int N : Ns){
@@ -412,7 +389,6 @@ void test_sortedlist(std::ofstream& f){
         writeRow(f, N, t);
     }
 
-    // ---- pop: zawsze O(1) - usuniecie head ----
     writeHeader(f, "---- pop() (best=avg=worst, O(1)) ----");
     for(int N : Ns){
         PriorityQueueSortedList pq;
@@ -421,7 +397,6 @@ void test_sortedlist(std::ofstream& f){
         writeRow(f, N, t);
     }
 
-    // ---- peek: zawsze O(1) ----
     writeHeader(f, "---- peek() (best=avg=worst, O(1)) ----");
     for(int N : Ns){
         PriorityQueueSortedList pq;
@@ -430,7 +405,6 @@ void test_sortedlist(std::ofstream& f){
         writeRowD(f, N, t);
     }
 
-    // ---- changePriority ----
     // best: id w head + nowy prio > all -> O(1) szukanie + O(1) reinsert
     // (po fill push(i,i) ascending: head ma id=N-1 z prio=N-1)
     writeHeader(f, "---- changePriority() best (id=N-1 w head, prio rosnacy, O(1)) ----");

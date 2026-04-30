@@ -285,7 +285,7 @@ void test_vector(std::ofstream& f){
     std::cout << "\n================ VECTOR ================\n";
 
     // push: zawsze O(1) amortyzowane (push_back). Best = avg = worst.
-    writeHeader(f, "---- push() (best=avg=worst, O(1) amortyzowane) ----");
+    writeHeader(f, "---- push() ----");
     for(int N : Ns){
         PriorityQueueVector pq;
         for(int i = 0; i < N; ++i) pq.push(i, i);
@@ -294,7 +294,7 @@ void test_vector(std::ofstream& f){
     }
 
     // pop: findMaxIndex zawsze pelny skan -> O(N). Brak roznicy best/worst.
-    writeHeader(f, "---- pop() (best=avg=worst, O(N) - findMaxIndex pelny skan) ----");
+    writeHeader(f, "---- pop() ----");
     for(int N : Ns){
         PriorityQueueVector pq;
         for(int i = 0; i < N; ++i) pq.push(i, i);
@@ -303,7 +303,7 @@ void test_vector(std::ofstream& f){
     }
 
     // peek: tak samo O(N).
-    writeHeader(f, "---- peek() (best=avg=worst, O(N)) ----");
+    writeHeader(f, "---- peek() ----");
     for(int N : Ns){
         PriorityQueueVector pq;
         for(int i = 0; i < N; ++i) pq.push(i, i);
@@ -315,7 +315,7 @@ void test_vector(std::ofstream& f){
 
     // changePriority: liniowe wyszukiwanie po id - zalezy od pozycji.
     // Po push(i, i) element o id=k jest w data[k].
-    writeHeader(f, "---- changePriority() best (id=0, na poczatku - O(1)) ----");
+    writeHeader(f, "---- changePriority() best ----");
     for(int N : Ns){
         PriorityQueueVector pq;
         for(int i = 0; i < N; ++i) pq.push(i, i);
@@ -323,7 +323,7 @@ void test_vector(std::ofstream& f){
         writeRowD(f, N, t);
     }
 
-    writeHeader(f, "---- changePriority() avg (id losowe - srednio O(N/2)) ----");
+    writeHeader(f, "---- changePriority() avg ----");
     for(int N : Ns){
         PriorityQueueVector pq;
         for(int i = 0; i < N; ++i) pq.push(i, i);
@@ -338,7 +338,7 @@ void test_vector(std::ofstream& f){
         writeRow(f, N, t);
     }
 
-    writeHeader(f, "---- changePriority() worst (id=N-1, na koncu - O(N)) ----");
+    writeHeader(f, "---- changePriority() worst ----");
     for(int N : Ns){
         PriorityQueueVector pq;
         for(int i = 0; i < N; ++i) pq.push(i, i);
@@ -355,11 +355,10 @@ void test_sortedlist(std::ofstream& f){
     std::mt19937 rng(42);
 
     f << "\n================ SORTED LIST (jednokierunkowa, malejaca) ================\n";
-    f << "(N ograniczone do 100k bo fill listy z losowymi priorytetami jest O(N^2))\n";
     std::cout << "\n================ SORTED LIST ================\n";
 
     // best: nowy prio > head -> wstawienie w head -> O(1)
-    writeHeader(f, "---- push() best (nowy prio > head, wstawienie w head, O(1)) ----");
+    writeHeader(f, "---- push() best ----");
     for(int N : Ns){
         PriorityQueueSortedList pq;
         // fill push(i, i) ascending - kazdy nowy idzie do head -> fill jest O(N)
@@ -369,7 +368,7 @@ void test_sortedlist(std::ofstream& f){
     }
 
     // avg: lista z losowymi prio, push z losowym prio -> srednio O(N/2)
-    writeHeader(f, "---- push() avg (lista i prio losowe, srednio O(N/2)) ----");
+    writeHeader(f, "---- push() avg ----");
     for(int N : Ns){
         PriorityQueueSortedList pq;
         std::uniform_int_distribution<int> dist(0, 2*N);
@@ -381,7 +380,7 @@ void test_sortedlist(std::ofstream& f){
     }
 
     // worst: nowy prio < tail -> przejscie do konca listy -> O(N)
-    writeHeader(f, "---- push() worst (nowy prio < tail, przejscie do konca, O(N)) ----");
+    writeHeader(f, "---- push() worst ----");
     for(int N : Ns){
         PriorityQueueSortedList pq;
         for(int i = 0; i < N; ++i) pq.push(i, i); // fill ascending - O(N), kazdy idzie do head
@@ -389,7 +388,7 @@ void test_sortedlist(std::ofstream& f){
         writeRow(f, N, t);
     }
 
-    writeHeader(f, "---- pop() (best=avg=worst, O(1)) ----");
+    writeHeader(f, "---- pop() ----");
     for(int N : Ns){
         PriorityQueueSortedList pq;
         for(int i = 0; i < N; ++i) pq.push(i, i);
@@ -397,7 +396,7 @@ void test_sortedlist(std::ofstream& f){
         writeRow(f, N, t);
     }
 
-    writeHeader(f, "---- peek() (best=avg=worst, O(1)) ----");
+    writeHeader(f, "---- peek() ----");
     for(int N : Ns){
         PriorityQueueSortedList pq;
         for(int i = 0; i < N; ++i) pq.push(i, i);
@@ -407,7 +406,7 @@ void test_sortedlist(std::ofstream& f){
 
     // best: id w head + nowy prio > all -> O(1) szukanie + O(1) reinsert
     // (po fill push(i,i) ascending: head ma id=N-1 z prio=N-1)
-    writeHeader(f, "---- changePriority() best (id=N-1 w head, prio rosnacy, O(1)) ----");
+    writeHeader(f, "---- changePriority() best ----");
     for(int N : Ns){
         PriorityQueueSortedList pq;
         for(int i = 0; i < N; ++i) pq.push(i, i);
@@ -416,7 +415,7 @@ void test_sortedlist(std::ofstream& f){
     }
 
     // avg: id losowe, prio losowe
-    writeHeader(f, "---- changePriority() avg (id i prio losowe) ----");
+    writeHeader(f, "---- changePriority() avg ----");
     for(int N : Ns){
         PriorityQueueSortedList pq;
         for(int i = 0; i < N; ++i) pq.push(i, i);
@@ -433,7 +432,7 @@ void test_sortedlist(std::ofstream& f){
 
     // worst: id w ogonie + nowy prio < min -> O(N) szukanie + O(N) reinsert
     // (po fill push(i,i) ascending: tail ma id=0; nowy prio rosnacy malejaco zeby zostal w ogonie)
-    writeHeader(f, "---- changePriority() worst (id=0 w ogonie, prio < min, O(N)) ----");
+    writeHeader(f, "---- changePriority() worst ----");
     for(int N : Ns){
         PriorityQueueSortedList pq;
         for(int i = 0; i < N; ++i) pq.push(i, i);
